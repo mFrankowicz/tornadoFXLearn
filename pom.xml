@@ -5,8 +5,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.example</groupId>
-    <artifactId>TornadoFX learn</artifactId>
-    <version>1.0</version>
+    <artifactId>TornadoFX UI</artifactId>
+    <version>0.1</version>
     <packaging>jar</packaging>
 
     <properties>
