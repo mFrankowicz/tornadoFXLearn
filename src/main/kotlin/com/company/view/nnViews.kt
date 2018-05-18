@@ -3,7 +3,9 @@ package com.company.view
 import com.company.controller.NNViewHolder
 import com.company.model.ItemJSONScope
 import javafx.scene.layout.BorderStrokeStyle
+import javafx.scene.paint.Color
 import javafx.scene.paint.Paint
+import javafx.scene.text.TextAlignment
 import tornadofx.*
 
 class NNView(nnViewHolder: NNViewHolder) : Fragment() {
@@ -29,13 +31,7 @@ class NNView(nnViewHolder: NNViewHolder) : Fragment() {
                 }
 
             }
-            button("print") {
-                action {
-                    nnViewHolder.nnViewList.forEach {
-                        println(it.toJSON())
-                    }
-                }
-            }
+
         }
         vbox(5) {
             children.bind(nnViewHolder.nnViewInsideList) {
@@ -49,13 +45,6 @@ class NNView(nnViewHolder: NNViewHolder) : Fragment() {
                 }
 
             }
-            button("print") {
-                action {
-                    nnViewHolder.nnViewInsideList.forEach {
-                        println(it.toJSON())
-                    }
-                }
-            }
         }
     }
 }
@@ -66,6 +55,13 @@ class NNViewItem : Fragment() {
     private val anchorBorders = 3
 
     override val root = anchorpane {
+
+        style {
+            backgroundColor += Color.YELLOW
+            borderColor += box(Color.BLACK)
+            borderWidth += box(1.px)
+        }
+
         textfield(model.text) {
             minWidth = 200.0
             minHeight = 40.0
@@ -80,6 +76,10 @@ class NNViewItem : Fragment() {
                 bottomAnchor = anchorBorders
                 leftAnchor = anchorBorders
                 rightAnchor = anchorBorders
+            }
+
+            style {
+                backgroundColor += Color.TRANSPARENT
             }
         }
     }

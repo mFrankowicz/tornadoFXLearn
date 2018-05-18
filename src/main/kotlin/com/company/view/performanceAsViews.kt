@@ -4,7 +4,10 @@ import com.company.controller.PerformanceAsHolder
 import com.company.model.ItemJSONModel
 import com.company.model.ItemJSONScope
 import javafx.scene.layout.BorderStrokeStyle
+import javafx.scene.paint.Color
 import javafx.scene.paint.Paint
+import javafx.scene.text.Font
+import javafx.scene.text.FontWeight
 import tornadofx.*
 
 class PerformanceAsView(performanceAsHolder: PerformanceAsHolder) : Fragment() {
@@ -23,13 +26,6 @@ class PerformanceAsView(performanceAsHolder: PerformanceAsHolder) : Fragment() {
 
         paddingRight = 5
 
-        button("print") {
-            action {
-                performanceAsHolder.performanceAsItemList.forEach {
-                    println(it.toJSON())
-                }
-            }
-        }
         style {
             borderWidth += box(0.px, 3.px, 0.px, 0.px)
             borderColor += box(Paint.valueOf("BLACK"))
@@ -57,6 +53,13 @@ class PerformanceAsItemView() : ItemFragment<ItemJSONModel>() {
                 bottomAnchor = anchorBorders
                 leftAnchor = anchorBorders
                 rightAnchor = anchorBorders
+            }
+
+            style {
+                fontSize = 14.pt
+                fontWeight = FontWeight.BOLD
+                backgroundColor += Color.TRANSPARENT
+                textFill = Color.BLUE
             }
         }
     }
