@@ -1,5 +1,6 @@
 package com.company.view
 
+import com.company.app.Styles
 import com.company.controller.GlobalController
 import com.company.controller.SightHolder
 import javafx.geometry.Insets
@@ -20,39 +21,34 @@ class MainView : View("Main") {
                     this += sights
 
                     padding = Insets(2.0,2.0, 2.0,2.0)
-
-                    style {
-                        borderWidth += box(2.px, 0.px, 2.px, 0.px)
-                        borderColor += box(Paint.valueOf("GRAY"))
-                        borderStyle += BorderStrokeStyle.SOLID
-                    }
+                    addClass(Styles.sightAnchorPaneStyle)
                 }
 
             }
             padding = Insets(5.0,5.0, 5.0,10.0)
 
-            style {
-                borderWidth += box(5.px, 0.px, 5.px, 0.px)
-                borderColor += box(Paint.valueOf("GRAY"))
-                borderStyle += BorderStrokeStyle.SOLID
-            }
+            addClass(Styles.sightVBoxStyle)
 
         }
+
 
     }
 
 }
 
 //TODO: Convert to to RichTextFX Controllers
-class SightItemView(itemJSONModel: SightHolder) : Fragment() {
+class SightItemView(sightHolder: SightHolder) : Fragment() {
 
-    private val performanceAsView = PerformanceAsView(itemJSONModel.performanceAsItems)
-    private val nnView1 = NNView(itemJSONModel.nnView1Items)
-    private val nnView2 = NNView(itemJSONModel.nnView2Items)
+    private val performanceAsView = PerformanceAsView(sightHolder.performanceAsItems)
+    private val nnView1 = NNView(sightHolder.nnView1Items)
+    private val nnView2 = NNView(sightHolder.nnView2Items)
+    private val theoryView = TheoryView(sightHolder.theoryItems)
 
     override val root = hbox {
+        this += label("Sight")
         this += performanceAsView
         this += nnView1
         this += nnView2
+        this += theoryView
     }
 }

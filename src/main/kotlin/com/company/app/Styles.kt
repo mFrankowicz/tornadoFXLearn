@@ -1,22 +1,90 @@
 package com.company.app
 
+import javafx.scene.layout.BorderStrokeStyle
+import javafx.scene.paint.Color
+import javafx.scene.paint.Paint
 import javafx.scene.text.FontWeight
-import tornadofx.Stylesheet
-import tornadofx.box
-import tornadofx.cssclass
-import tornadofx.px
+import tornadofx.*
 
 class Styles : Stylesheet() {
     companion object {
-        val heading by cssclass()
-        val command by cssclass()
+
+        val sightVBoxStyle by cssclass()
+        val sightAnchorPaneStyle by cssclass()
+
+        val performanceAsItemStyle by cssclass()
+        val performanceAsStyle by cssclass()
+
+        val nnViewStyle by cssclass()
+        val nnViewItemStyle by cssclass()
+        val nnViewItemTextStyle by cssclass()
+
+        val theoryStyle by cssclass()
+        val theoryTextStyle by cssclass()
     }
 
     init {
-        label and heading {
-            padding = box(10.px)
-            fontSize = 20.px
-            fontWeight = FontWeight.BOLD
+        // General Sights Style
+        //-----------------------
+        sightVBoxStyle {
+            borderWidth += box(5.px, 0.px, 5.px, 0.px)
+            borderColor += box(Paint.valueOf("GRAY"))
+            borderStyle += BorderStrokeStyle.SOLID
         }
+
+        sightAnchorPaneStyle {
+            borderWidth += box(2.px, 0.px, 2.px, 0.px)
+            borderColor += box(Paint.valueOf("GRAY"))
+            borderStyle += BorderStrokeStyle.SOLID
+            padding = box(4.px,4.px,4.px,4.px)
+        }
+
+
+        // PerformanceAs Styles
+        //-----------------------
+        performanceAsStyle {
+            borderWidth += box(0.px, 3.px, 0.px, 0.px)
+            borderColor += box(Paint.valueOf("BLACK"))
+            borderStyle += BorderStrokeStyle.DOTTED
+        }
+
+        performanceAsItemStyle {
+            fontSize = 14.pt
+            fontWeight = FontWeight.BOLD
+            backgroundColor += Color.TRANSPARENT
+            textFill = Color.BLUE
+        }
+
+        // nnView Styles
+        //-----------------------
+        nnViewStyle {
+            borderWidth += box(0.px, 3.px, 0.px, 0.px)
+            borderColor += box(Paint.valueOf("BLACK"))
+            borderStyle += BorderStrokeStyle.DOTTED
+        }
+
+        nnViewItemStyle {
+            backgroundColor += Color.YELLOW
+            borderColor += box(Color.BLACK)
+            borderWidth += box(1.px)
+        }
+
+        nnViewItemTextStyle {
+            backgroundColor += Color.TRANSPARENT
+        }
+
+        // Theory Styles
+        //-----------------------
+        theoryStyle {
+            backgroundColor += Color.GRAY
+            borderColor += box(Color.BLACK)
+            borderWidth += box(1.px)
+            padding = box(10.px)
+        }
+
+        theoryTextStyle {
+            backgroundColor += Color.TRANSPARENT
+        }
+
     }
 }

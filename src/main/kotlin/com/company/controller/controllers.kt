@@ -45,6 +45,7 @@ class SightHolder() {
     val performanceAsItems = PerformanceAsHolder()
     val nnView1Items = NNViewHolder()
     val nnView2Items = NNViewHolder()
+    val theoryItems = TheoryHolder()
 }
 
 class PerformanceAsHolder() {
@@ -97,5 +98,28 @@ class NNViewHolder() {
 
     fun addItemInside(item: ItemJSONModel) {
         nnViewInsideList.add(item)
+    }
+}
+
+class TheoryHolder() {
+    private val item1 = ItemJSONModel()
+    private val item2 = ItemJSONModel()
+
+    init {
+        item1.text = "Theory 1"
+        item1.id = (UUID.randomUUID().toString())
+        item2.text = "Theory 2"
+        item2.id = (UUID.randomUUID().toString())
+
+    }
+
+    val theoryList = mutableListOf(
+            item1,
+            item2
+    ).observable()
+
+
+    fun addItem(item: ItemJSONModel) {
+        theoryList.add(item)
     }
 }

@@ -1,36 +1,35 @@
 package com.company.view
 
 import com.company.app.Styles
-import com.company.controller.PerformanceAsHolder
+import com.company.controller.TheoryHolder
 import com.company.model.ItemJSONModel
 import com.company.model.ItemJSONScope
-import javafx.scene.layout.BorderStrokeStyle
+/*import javafx.scene.layout.BorderStrokeStyle
 import javafx.scene.paint.Color
 import javafx.scene.paint.Paint
-import javafx.scene.text.FontWeight
+import javafx.scene.text.FontWeight*/
 import tornadofx.*
 
-class PerformanceAsView(performanceAsHolder: PerformanceAsHolder) : Fragment() {
+class TheoryView(theoryHolder: TheoryHolder) : Fragment() {
     override val root = vbox(5) {
-        children.bind(performanceAsHolder.performanceAsItemList) {
+        children.bind(theoryHolder.theoryList) {
             anchorpane {
                 println(it.toString())
                 val editScope = ItemJSONScope()
                 editScope.model = it
-                val perfAnchors = find(PerformanceAsItemView::class, editScope).root
-                println(perfAnchors)
-                add(perfAnchors)
+                val theoryAnchors = find(TheoryItemView::class, editScope).root
+                println(theoryAnchors)
+                add(theoryAnchors)
             }
 
         }
 
         paddingRight = 5
 
-        addClass(Styles.performanceAsStyle)
     }
 }
 
-class PerformanceAsItemView() : ItemFragment<ItemJSONModel>() {
+class TheoryItemView() : ItemFragment<ItemJSONModel>() {
     override val scope = super.scope as ItemJSONScope
     private val model = scope.model
     private val anchorBorders = 3
@@ -51,7 +50,9 @@ class PerformanceAsItemView() : ItemFragment<ItemJSONModel>() {
                 rightAnchor = anchorBorders
             }
 
-            addClass(Styles.performanceAsItemStyle)
+            addClass(Styles.theoryTextStyle)
+
         }
+        addClass(Styles.theoryStyle)
     }
 }

@@ -1,22 +1,16 @@
 package com.company.view
 
+import com.company.app.Styles
 import com.company.controller.NNViewHolder
 import com.company.model.ItemJSONScope
+import javafx.geometry.Orientation
 import javafx.scene.layout.BorderStrokeStyle
 import javafx.scene.paint.Color
 import javafx.scene.paint.Paint
-import javafx.scene.text.TextAlignment
 import tornadofx.*
 
 class NNView(nnViewHolder: NNViewHolder) : Fragment() {
     override val root = hbox(5) {
-
-        style {
-            borderWidth += box(0.px, 3.px, 0.px, 0.px)
-            borderColor += box(Paint.valueOf("BLACK"))
-            borderStyle += BorderStrokeStyle.DOTTED
-        }
-
         paddingRight = 5
 
         vbox(5) {
@@ -25,27 +19,31 @@ class NNView(nnViewHolder: NNViewHolder) : Fragment() {
                     println(it.toString())
                     val editScope = ItemJSONScope()
                     editScope.model = it
-                    val perfAnchors = find(NNViewItem::class, editScope).root
-                    println(perfAnchors)
-                    add(perfAnchors)
+                    val nnViewAnchors = find(NNViewItem::class, editScope).root
+                    println(nnViewAnchors)
+                    add(nnViewAnchors)
                 }
 
             }
 
         }
-        vbox(5) {
+        flowpane() {
             children.bind(nnViewHolder.nnViewInsideList) {
                 anchorpane {
                     println(it.toString())
                     val editScope = ItemJSONScope()
                     editScope.model = it
-                    val perfAnchors = find(NNViewItemInside::class, editScope).root
-                    println(perfAnchors)
-                    add(perfAnchors)
+                    val nnViewItemAnchors = find(NNViewItemInside::class, editScope).root
+                    println(nnViewItemAnchors)
+                    add(nnViewItemAnchors)
                 }
-
             }
+            orientation = Orientation.VERTICAL
+            prefWrapLength = 600.0
         }
+
+        addClass(Styles.nnViewStyle)
+
     }
 }
 
@@ -55,13 +53,6 @@ class NNViewItem : Fragment() {
     private val anchorBorders = 3
 
     override val root = anchorpane {
-
-        style {
-            backgroundColor += Color.YELLOW
-            borderColor += box(Color.BLACK)
-            borderWidth += box(1.px)
-        }
-
         textfield(model.text) {
             minWidth = 200.0
             minHeight = 40.0
@@ -70,7 +61,6 @@ class NNViewItem : Fragment() {
 
             model.textProperty.bindBidirectional(this.textProperty())
 
-
             anchorpaneConstraints {
                 topAnchor = anchorBorders
                 bottomAnchor = anchorBorders
@@ -78,10 +68,10 @@ class NNViewItem : Fragment() {
                 rightAnchor = anchorBorders
             }
 
-            style {
-                backgroundColor += Color.TRANSPARENT
-            }
+            addClass(Styles.nnViewItemTextStyle)
         }
+
+        addClass(Styles.nnViewItemStyle)
     }
 }
 
@@ -98,7 +88,6 @@ class NNViewItemInside : Fragment() {
             prefHeight = 40.0
 
             model.textProperty.bindBidirectional(this.textProperty())
-
 
             anchorpaneConstraints {
                 topAnchor = anchorBorders
