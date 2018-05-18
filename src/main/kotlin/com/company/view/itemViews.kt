@@ -1,21 +1,12 @@
 package com.company.view
 
-import com.company.controller.CommitsHistory
 import com.company.controller.PerformanceAsController
-import com.company.model.Item
-import com.company.model.ItemModel
-import com.company.model.ItemScope
-import javafx.application.Platform
-import javafx.beans.property.SimpleObjectProperty
-import javafx.scene.control.TextField
+import com.company.model.*
 import tornadofx.*
-import tornadofx.getValue
-import tornadofx.setValue
+
 
 class MainView : View("Main") {
     val sigthOne = SightView()
-    val performanceAsController: PerformanceAsController by inject()
-
 
     override val root = borderpane {
         center = sigthOne.root
@@ -24,45 +15,37 @@ class MainView : View("Main") {
 
 class SightView() : View() {
     private val controller: PerformanceAsController by inject()
-    private val commitsHistory: CommitsHistory by inject(DefaultScope)
-    val modelGlobal: ItemModel by inject()
     override val root = vbox(5) {
         children.bind(controller.performanceAs) {
             anchorpane {
                 println(it.toString())
-                val editScope = ItemScope()
-                editScope.model.item = it
+                val editScope = ItemJSONScope()
+                editScope.model = it
                 val perfAnchors = find(PerformanceAsView::class, editScope).root
                 println(perfAnchors)
                 add(perfAnchors)
-                //println("model ${editScope.model.item.id} ${editScope.model.item.textProperty}")
             }
 
         }
         button("print") {
-
             action {
                 controller.performanceAs.forEach {
-                    println(it.textProperty)
+                    println(it.toJSON())
                 }
             }
         }
 
         button("add") {
             action {
-                controller.addItem(Item(13, 2, 3, 3, "PerformanceAs5", ""))
+                controller.addItem(ItemJSONModel())
             }
         }
     }
 }
 
-class PerformanceAsView() : ItemFragment<Item>() {
-    // val performanceAsController: PerformanceAsController by inject()
-    override val scope = super.scope as ItemScope
+class PerformanceAsView() : ItemFragment<ItemJSONModel>() {
+    override val scope = super.scope as ItemJSONScope
     private val model = scope.model
-
-    val textFieldProperty = SimpleObjectProperty<TextField>()
-    var textField: TextField by textFieldProperty
 
     override val root = vbox {
         textfield(model.text) {
@@ -71,33 +54,16 @@ class PerformanceAsView() : ItemFragment<Item>() {
             prefWidth = 200.0
             prefHeight = 40.0
 
-            model.rebindOnChange(this.textProperty()) { s ->
-                //model.text.bindBidirectional(s.toProperty())
-                model.commit()
-            }
+            model.textProperty.bindBidirectional(this.textProperty())
+        }
+        textfield(model.format) {
+            minWidth = 200.0
+            minHeight = 40.0
+            prefWidth = 200.0
+            prefHeight = 40.0
 
-            // bind(performanceAsController.performanceAsItemModel.textProperty)
-
-            // model.rebindOnChange(this.textProperty().onChange {  })
-            // model.text.bindBidirectional(text.toProperty())
+            model.formatProperty.bindBidirectional(this.textProperty())
         }
     }
 }
-/*
-class Deleg {
-
-    private var value: String? = null
-
-
-    operator fun getValue(thisRef: Any?, property: KProperty<*>): String {
-        return value ?: throw IllegalStateException("Initialize first!")
-    }
-
-    operator fun setValue(thisRef: Any?, property: KProperty<*>, value: String) {
-        println("$thisRef || $property || $value")
-        this.value = value
-    }
-
-}
-*/
 
