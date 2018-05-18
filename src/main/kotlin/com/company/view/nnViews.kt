@@ -27,6 +27,7 @@ class NNView(nnViewHolder: NNViewHolder) : Fragment() {
             }
 
         }
+
         flowpane() {
             children.bind(nnViewHolder.nnViewInsideList) {
                 anchorpane {
