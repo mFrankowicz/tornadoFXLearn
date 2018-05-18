@@ -2,11 +2,12 @@ package com.company.model
 
 import javafx.beans.property.*
 import tornadofx.*
+import java.util.*
 import javax.json.*
 
 
 class ItemJSONModel() : JsonModel {
-    val idProperty = SimpleLongProperty()
+    val idProperty = SimpleStringProperty()
     var id by idProperty
 
     val sightNumberProperty = SimpleIntegerProperty()
@@ -26,7 +27,7 @@ class ItemJSONModel() : JsonModel {
 
     override fun updateModel(json: JsonObject) {
         with(json) {
-            id = long("id")!!
+            id = string("id")!!
             sightNumber = int("sightNumber")!!
             categoryId = int("categoryId")!!
             index = int("index")!!
