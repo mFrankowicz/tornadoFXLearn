@@ -10,12 +10,12 @@ class PerformanceAsView(performanceAsHolder: PerformanceAsHolder) : Fragment() {
 
     override val root = vbox(5) {
 
-        children.bind(performanceAsHolder.performanceAsItemList) {
+        children.bind(performanceAsHolder.listOne) {
 
             anchorpane {
 
                 val editScope = ItemJSONScope()
-                editScope.model = it
+                editScope.model = it as ItemJSONModel
                 val perfAnchors = find(PerformanceAsItemView::class, editScope).root
 
                 this += perfAnchors
@@ -39,9 +39,18 @@ class PerformanceAsItemView() : ItemFragment<ItemJSONModel>() {
 
     override val root = anchorpane {
 
-        textfield(model.text) {
+        textfield {
 
-            model.textProperty.bindBidirectional(this.textProperty())
+            runAsync {
+
+                return@runAsync model.text
+
+            } ui { loadedText ->
+
+                this@textfield.text = loadedText
+                model.textProperty.bindBidirectional(this.textProperty())
+
+            }
 
             anchorpaneConstraints {
                 topAnchor = anchorBorders

@@ -4,7 +4,7 @@ import javafx.beans.property.*
 import tornadofx.*
 import javax.json.*
 
-class ItemJSONModel : JsonModel {
+class ItemJSONModel : JsonModel, Any() {
 
     val idProperty = SimpleStringProperty()
     var id by idProperty

@@ -1,21 +1,21 @@
 package com.company.view
 
 import com.company.app.Styles
-import com.company.controller.TheoryHolder
+import com.company.controller.TheoryHolderOneList
 import com.company.model.ItemJSONModel
 import com.company.model.ItemJSONScope
 import tornadofx.*
 
-class TheoryView(theoryHolder: TheoryHolder) : Fragment() {
+class TheoryView(theoryHolder: TheoryHolderOneList) : Fragment() {
 
     override val root = vbox(5) {
 
-        children.bind(theoryHolder.theoryList) {
+        children.bind(theoryHolder.listOne) {
 
             anchorpane {
 
                 val editScope = ItemJSONScope()
-                editScope.model = it
+                editScope.model = it as ItemJSONModel
                 val theoryAnchors = find(TheoryItemView::class, editScope).root
 
                 this += theoryAnchors
@@ -37,9 +37,14 @@ class TheoryItemView() : ItemFragment<ItemJSONModel>() {
 
     override val root = anchorpane {
 
-        textfield(model.text) {
+        textfield {
 
-            model.textProperty.bindBidirectional(this.textProperty())
+            runAsync {
+                return@runAsync model.text
+            } ui {loadedText ->
+                this@textfield.text = loadedText
+                model.textProperty.bindBidirectional(this.textProperty())
+            }
 
             anchorpaneConstraints {
                 topAnchor = anchorBorders

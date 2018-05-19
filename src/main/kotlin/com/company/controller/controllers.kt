@@ -1,6 +1,7 @@
 package com.company.controller
 
 import com.company.model.ItemJSONModel
+import javafx.collections.ObservableList
 import tornadofx.*
 import java.util.*
 
@@ -18,16 +19,20 @@ class GlobalController: Controller() {
         sightsList.add(item)
     }
 
+    fun getList() : ObservableList<SightHolder> {
+        return sightsList
+    }
+
 }
 
 class SightHolder {
     val performanceAsItems = PerformanceAsHolder()
     val nnView1Items = NNViewHolder()
     val nnView2Items = NNViewHolder()
-    val theoryItems = TheoryHolder()
+    val theoryItems = TheoryHolderOneList()
 }
 
-class PerformanceAsHolder {
+class PerformanceAsHolder : HolderOneList() {
 
     private val item1 = ItemJSONModel()
     private val item2 = ItemJSONModel()
@@ -41,17 +46,14 @@ class PerformanceAsHolder {
 
     }
 
-    val performanceAsItemList = mutableListOf(
+    override val listOne: ObservableList<Any?> = mutableListOf(
             item1,
             item2
     ).observable()
 
-    fun addItem(item: ItemJSONModel) {
-        performanceAsItemList.add(item)
-    }
 }
 
-class NNViewHolder {
+class NNViewHolder : HolderTwoLists() {
 
     private val item1 = ItemJSONModel()
     private val item2 = ItemJSONModel()
@@ -71,44 +73,46 @@ class NNViewHolder {
 
     }
 
-    val nnViewList = mutableListOf(
+    override val listOne: ObservableList<Any?> = mutableListOf(
             item1,
             item2
     ).observable()
 
-    val nnViewInsideList = mutableListOf(
+    override val listTwo: ObservableList<Any?> = mutableListOf(
             itemInside1
     ).observable()
 
-    fun addItem(item: ItemJSONModel) {
-        nnViewList.add(item)
-    }
-
-    fun addItemInside(item: ItemJSONModel) {
-        nnViewInsideList.add(item)
-    }
 }
 
-class TheoryHolder {
+class TheoryHolderOneList : HolderOneList() {
 
     private val item1 = ItemJSONModel()
     private val item2 = ItemJSONModel()
 
     init {
+
         item1.text = "Theory 1"
         item1.id = (UUID.randomUUID().toString())
+
         item2.text = "Theory 2"
         item2.id = (UUID.randomUUID().toString())
 
     }
 
-    val theoryList = mutableListOf(
+    override val listOne: ObservableList<Any?> = mutableListOf(
             item1,
             item2
     ).observable()
+}
 
+open abstract class HolderOneList {
 
-    fun addItem(item: ItemJSONModel) {
-        theoryList.add(item)
-    }
+    open abstract val listOne: ObservableList<Any?>
+
+}
+
+open abstract class HolderTwoLists : HolderOneList() {
+
+    open abstract val listTwo: ObservableList<Any?>
+
 }

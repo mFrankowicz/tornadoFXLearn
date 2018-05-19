@@ -15,19 +15,29 @@ class MainView : View("Main") {
 
         vbox(5) {
 
-            children.bind(globalController.sightsList) {
+            runAsync {
 
-                val sights = SightItemView(it)
+                globalController.getList()
 
-                anchorpane {
+            } ui { t ->
 
-                    this += sights
+                children.bind(t) {
 
-                    padding = Insets(2.0,2.0, 2.0,2.0)
-                    addClass(Styles.sightAnchorPaneStyle)
+                    val sights = SightItemView(it)
 
+                    anchorpane {
+
+                        this += sights
+
+                        padding = Insets(2.0, 2.0, 2.0, 2.0)
+                        addClass(Styles.sightAnchorPaneStyle)
+
+                    }
                 }
             }
+
+            setPrefSize(1200.0,700.0)
+            usePrefSize
 
             padding = Insets(5.0,5.0, 5.0,10.0)
             addClass(Styles.sightVBoxStyle)
