@@ -36,7 +36,7 @@ class Styles : Stylesheet() {
             borderWidth += box(2.px, 0.px, 2.px, 0.px)
             borderColor += box(Paint.valueOf("GRAY"))
             borderStyle += BorderStrokeStyle.SOLID
-            padding = box(4.px,4.px,4.px,4.px)
+            padding = box(4.px)
         }
 
 

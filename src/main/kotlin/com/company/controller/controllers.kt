@@ -2,15 +2,25 @@ package com.company.controller
 
 import com.company.model.ItemJSONModel
 import javafx.collections.ObservableList
+import kotlinx.coroutines.experimental.launch
 import tornadofx.*
 import java.util.*
 
 class GlobalController: Controller() {
 
-    val sight1 = SightHolder()
-    val sight2 = SightHolder()
+    private val sight1 = SightHolder()
+    private val sight2 = SightHolder()
+/*
+    init {
+        launch {
+            for(i in 1..100) {
+                sightsList.add(SightHolder())
+            }
+        }
+    }
+    */
 
-    val sightsList = mutableListOf(
+    private val sightsList = mutableListOf(
             sight1,
             sight2
     ).observable()
@@ -46,7 +56,7 @@ class PerformanceAsHolder : HolderOneList() {
 
     }
 
-    override val listOne: ObservableList<Any?> = mutableListOf(
+    override val listOne: ObservableList<Any> = mutableListOf(
             item1,
             item2
     ).observable()
@@ -71,14 +81,15 @@ class NNViewHolder : HolderTwoLists() {
         itemInside1.text = "View Inside Item 1"
         itemInside1.id = (UUID.randomUUID().toString())
 
+
     }
 
-    override val listOne: ObservableList<Any?> = mutableListOf(
+    override val listOne: ObservableList<Any> = mutableListOf(
             item1,
             item2
     ).observable()
 
-    override val listTwo: ObservableList<Any?> = mutableListOf(
+    override val listTwo: ObservableList<Any> = mutableListOf(
             itemInside1
     ).observable()
 
@@ -99,20 +110,20 @@ class TheoryHolderOneList : HolderOneList() {
 
     }
 
-    override val listOne: ObservableList<Any?> = mutableListOf(
+    override val listOne: ObservableList<Any> = mutableListOf(
             item1,
             item2
     ).observable()
 }
 
-open abstract class HolderOneList {
+abstract class HolderOneList {
 
-    open abstract val listOne: ObservableList<Any?>
+    abstract val listOne: ObservableList<Any>
 
 }
 
-open abstract class HolderTwoLists : HolderOneList() {
+abstract class HolderTwoLists : HolderOneList() {
 
-    open abstract val listTwo: ObservableList<Any?>
+    abstract val listTwo: ObservableList<Any>
 
 }

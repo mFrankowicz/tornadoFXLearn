@@ -28,7 +28,7 @@ class TheoryView(theoryHolder: TheoryHolderOneList) : Fragment() {
     }
 }
 
-class TheoryItemView() : ItemFragment<ItemJSONModel>() {
+class TheoryItemView : ItemFragment<ItemJSONModel>() {
 
     override val scope = super.scope as ItemJSONScope
     private val model = scope.model

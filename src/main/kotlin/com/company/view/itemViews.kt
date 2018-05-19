@@ -36,6 +36,7 @@ class MainView : View("Main") {
                 }
             }
 
+
             setPrefSize(1200.0,700.0)
             usePrefSize
 

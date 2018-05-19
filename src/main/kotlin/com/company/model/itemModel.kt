@@ -6,23 +6,23 @@ import javax.json.*
 
 class ItemJSONModel : JsonModel, Any() {
 
-    val idProperty = SimpleStringProperty()
+    private val idProperty = SimpleStringProperty()
     var id by idProperty
 
-    val sightNumberProperty = SimpleIntegerProperty()
-    var sightNumber by sightNumberProperty
+    private val sightNumberProperty = SimpleIntegerProperty()
+    private var sightNumber by sightNumberProperty
 
-    val categoryIdProperty = SimpleIntegerProperty()
-    var categoryId by categoryIdProperty
+    private val categoryIdProperty = SimpleIntegerProperty()
+    private var categoryId by categoryIdProperty
 
-    val indexProperty = SimpleIntegerProperty()
-    var index by indexProperty
+    private val indexProperty = SimpleIntegerProperty()
+    private var index by indexProperty
 
     val textProperty = SimpleStringProperty()
     var text by textProperty
 
-    val formatProperty = SimpleStringProperty()
-    var format by formatProperty
+    private val formatProperty = SimpleStringProperty()
+    private var format by formatProperty
 
     override fun updateModel(json: JsonObject) {
 
