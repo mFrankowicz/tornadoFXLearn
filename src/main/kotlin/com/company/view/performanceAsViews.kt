@@ -1,18 +1,14 @@
 package com.company.view
 
 import com.company.app.Styles
+import com.company.controller.GlobalController
 import com.company.controller.PerformanceAsHolder
+import com.company.controller.UpdateToDbEvent
 import com.company.model.ItemJSONModel
 import com.company.model.ItemJSONScope
-import javafx.beans.value.ObservableValue
 import javafx.event.EventTarget
-import javafx.scene.control.TextField
-import javafx.scene.control.TextInputControl
-import javafx.scene.layout.AnchorPane
-import javafx.util.StringConverter
 import org.fxmisc.richtext.StyleClassedTextArea
 import tornadofx.*
-import java.text.Format
 
 class PerformanceAsView(performanceAsHolder: PerformanceAsHolder) : Fragment() {
 
@@ -28,9 +24,8 @@ class PerformanceAsView(performanceAsHolder: PerformanceAsHolder) : Fragment() {
                 anchorpane {
 
                     val editScope = ItemJSONScope()
-                    editScope.model = it as ItemJSONModel
+                    editScope.model = it
                     val perfAnchors = find(PerformanceAsItemView::class, editScope).root
-
                     this += perfAnchors
 
                 }
@@ -46,16 +41,17 @@ class PerformanceAsView(performanceAsHolder: PerformanceAsHolder) : Fragment() {
 
 class PerformanceAsItemView : ItemFragment<ItemJSONModel>() {
 
+    private val globalController: GlobalController by inject()
+
     override val scope = super.scope as ItemJSONScope
     private val model = scope.model
-
-    val styledTextArea = StyleClassedTextArea()
 
     private val anchorBorders = 3
 
     override val root = anchorpane {
 
-        styledTextArea {
+        val s = styledTextArea {
+
             runAsync {
 
                 return@runAsync model.text
@@ -64,8 +60,11 @@ class PerformanceAsItemView : ItemFragment<ItemJSONModel>() {
 
                 this.appendText(loadedText)
 
-                model.textProperty.bindBidirectional(this.text.toProperty())
-
+                this.textProperty().onChange {
+                    model.textProperty.bindBidirectional(this.content.text.toProperty())
+                    model.categoryId = 1
+                    fire(UpdateToDbEvent(model))
+                }
             }
 
             anchorpaneConstraints {
@@ -80,8 +79,12 @@ class PerformanceAsItemView : ItemFragment<ItemJSONModel>() {
             prefWidth = 200.0
             prefHeight = 40.0
 
-            addClass(Styles.performanceAsItemStyle)
+            //addClass(Styles.performanceAsItemStyle)
+
+            setStyleClass(0,text.length,Styles.performanceAsItemStyle.render())
+            println(Styles.performanceAsItemStyle.render())
         }
+
         /*
         textfield {
 

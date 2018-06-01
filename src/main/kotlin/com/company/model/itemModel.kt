@@ -1,54 +1,49 @@
 package com.company.model
 
 import javafx.beans.property.*
+import org.dizitart.no2.NitriteId
+import org.dizitart.no2.objects.Id
 import tornadofx.*
 import javax.json.*
 
-class ItemJSONModel : JsonModel, Any() {
+data class ItemJSONModel(@Id var id: Long = NitriteId.newId().idValue) : JsonModel, Any() {
 
-    private val idProperty = SimpleStringProperty()
-    var id by idProperty
+    val sightNumberProperty = SimpleIntegerProperty()
+    var sightNumber by sightNumberProperty
 
-    private val sightNumberProperty = SimpleIntegerProperty()
-    private var sightNumber by sightNumberProperty
+    val nnViewIndexProperty = SimpleIntegerProperty()
+    var nnViewIndex by nnViewIndexProperty
 
-    private val categoryIdProperty = SimpleIntegerProperty()
-    private var categoryId by categoryIdProperty
+    val categoryIdProperty = SimpleIntegerProperty()
+    var categoryId by categoryIdProperty
 
-    private val indexProperty = SimpleIntegerProperty()
-    private var index by indexProperty
+    val indexProperty = SimpleIntegerProperty()
+    var index by indexProperty
 
     val textProperty = SimpleStringProperty()
     var text by textProperty
 
-    private val formatProperty = SimpleStringProperty()
-    private var format by formatProperty
-
     override fun updateModel(json: JsonObject) {
 
         with(json) {
-
-            id = string("id")!!
+            id = long("id")!!
             sightNumber = int("sightNumber")!!
             categoryId = int("categoryId")!!
             index = int("index")!!
+            nnViewIndex = int("nnViewIndex")!!
             text = string("text")
-            format = string("format")
-
         }
     }
 
     override fun toJSON(json: JsonBuilder) {
 
         with(json) {
-
             add("id", id)
             add("sightNumber", sightNumber)
             add("categoryId", categoryId)
             add("index", index)
+            add("nnViewIndex", nnViewIndex)
             add("text", text)
-            add("format", format)
-
         }
     }
 }

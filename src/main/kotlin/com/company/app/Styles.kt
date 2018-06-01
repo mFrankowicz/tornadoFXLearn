@@ -7,6 +7,7 @@ import javafx.scene.text.FontWeight
 import tornadofx.*
 
 class Styles : Stylesheet() {
+
     companion object {
 
         val sightVBoxStyle by cssclass()
@@ -28,7 +29,7 @@ class Styles : Stylesheet() {
         //-----------------------
         sightVBoxStyle {
             borderWidth += box(5.px, 0.px, 5.px, 0.px)
-            borderColor += box(Paint.valueOf("GRAY"))
+            borderColor += box(Paint.valueOf("RED"))
             borderStyle += BorderStrokeStyle.SOLID
         }
 

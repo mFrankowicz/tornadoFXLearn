@@ -1,6 +1,7 @@
 package com.company.view
 
 import com.company.app.Styles
+import com.company.controller.UpdateToDbEvent
 import com.company.controller.TheoryHolderOneList
 import com.company.model.ItemJSONModel
 import com.company.model.ItemJSONScope
@@ -43,7 +44,11 @@ class TheoryItemView : ItemFragment<ItemJSONModel>() {
                 return@runAsync model.text
             } ui {loadedText ->
                 this@textfield.text = loadedText
-                model.textProperty.bindBidirectional(this.textProperty())
+                this.textProperty().onChange {
+                    model.textProperty.bindBidirectional(this.text.toProperty())
+                    model.categoryId = 6
+                    fire(UpdateToDbEvent(model))
+                }
             }
 
             anchorpaneConstraints {

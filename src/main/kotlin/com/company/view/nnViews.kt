@@ -2,12 +2,13 @@ package com.company.view
 
 import com.company.app.Styles
 import com.company.controller.NNViewHolder
+import com.company.controller.UpdateToDbEvent
 import com.company.model.ItemJSONModel
 import com.company.model.ItemJSONScope
 import javafx.geometry.Orientation
 import tornadofx.*
 
-class NNView(nnViewHolder: NNViewHolder) : Fragment() {
+class NNView(nnViewHolder: NNViewHolder, nnViewIndex: Int) : Fragment() {
 
     override val root = hbox(5) {
 
@@ -25,7 +26,7 @@ class NNView(nnViewHolder: NNViewHolder) : Fragment() {
 
                         val editScope = ItemJSONScope()
                         editScope.model = it as ItemJSONModel
-                        val nnViewAnchors = find(NNViewItem::class, editScope).root
+                        val nnViewAnchors = find(NNViewItem(nnViewIndex)::class, editScope).root
 
                         this += nnViewAnchors
                     }
@@ -42,7 +43,7 @@ class NNView(nnViewHolder: NNViewHolder) : Fragment() {
 
                 return@runAsync nnViewHolder.listTwo
 
-            } ui { t->
+            } ui { t ->
 
                 children.bind(t) {
 
@@ -50,7 +51,7 @@ class NNView(nnViewHolder: NNViewHolder) : Fragment() {
 
                         val editScope = ItemJSONScope()
                         editScope.model = it as ItemJSONModel
-                        val nnViewItemAnchors = find(NNViewItemInside::class, editScope).root
+                        val nnViewItemAnchors = find(NNViewItemInside(nnViewIndex)::class, editScope).root
 
                         this += nnViewItemAnchors
 
@@ -69,7 +70,7 @@ class NNView(nnViewHolder: NNViewHolder) : Fragment() {
     }
 }
 
-class NNViewItem : Fragment() {
+class NNViewItem(nnViewIndex: Int) : Fragment() {
 
     override val scope = super.scope as ItemJSONScope
     private val model = scope.model
@@ -88,7 +89,12 @@ class NNViewItem : Fragment() {
 
                 this@textfield.text = loadedText
 
-                model.textProperty.bindBidirectional(this.textProperty())
+                this.textProperty().onChange {
+                    model.textProperty.bindBidirectional(this.text.toProperty())
+                    model.categoryId = 2
+                    model.nnViewIndex = nnViewIndex
+                    fire(UpdateToDbEvent(model))
+                }
 
             }
 
@@ -113,7 +119,7 @@ class NNViewItem : Fragment() {
     }
 }
 
-class NNViewItemInside : Fragment() {
+class NNViewItemInside(nnViewIndex: Int) : Fragment() {
 
     override val scope = super.scope as ItemJSONScope
     private val model = scope.model
@@ -122,33 +128,122 @@ class NNViewItemInside : Fragment() {
 
     override val root = anchorpane {
 
-        textfield {
+        when (model.categoryId) {
 
-            runAsync {
+            // text (red black)
+            3 -> {
+                textfield {
 
-                return@runAsync model.text
+                    runAsync {
 
-            } ui { loadedText ->
+                        return@runAsync model.text
 
-                this@textfield.text = loadedText
+                    } ui { loadedText ->
 
-                model.textProperty.bindBidirectional(this.textProperty())
+                        this@textfield.text = loadedText
+
+                        this.textProperty().onChange {
+                            model.textProperty.bindBidirectional(this.text.toProperty())
+                            model.categoryId = 3
+                            model.nnViewIndex = nnViewIndex
+                            fire(UpdateToDbEvent(model))
+                        }
+
+                    }
+
+                    anchorpaneConstraints {
+                        topAnchor = anchorBorders
+                        bottomAnchor = anchorBorders
+                        leftAnchor = anchorBorders
+                        rightAnchor = anchorBorders
+                    }
+
+                    minWidth = 200.0
+                    minHeight = 40.0
+                    prefWidth = 200.0
+                    prefHeight = 40.0
+
+                }
+            }
+
+            // artists list
+            4 -> {
+
+                textfield {
+                    runAsync {
+
+                        return@runAsync model.text
+
+                    } ui { loadedText ->
+
+                        this@textfield.text = loadedText
+                        //it.textProperty.bindBidirectional(this.textProperty())
+                        this.textProperty().onChange {
+                            model.textProperty.bindBidirectional(this.text.toProperty())
+                            model.categoryId = 4
+                            model.nnViewIndex = nnViewIndex
+                            fire(UpdateToDbEvent(model))
+                        }
+                    }
+
+                    anchorpaneConstraints {
+
+                        topAnchor = anchorBorders
+                        bottomAnchor = anchorBorders
+                        leftAnchor = anchorBorders
+                        rightAnchor = anchorBorders
+                    }
+
+                    minWidth = 200.0
+                    minHeight = 100.0
+                    prefWidth = 200.0
+                    prefHeight = 300.0
+
+                }
 
             }
 
-            anchorpaneConstraints {
-                topAnchor = anchorBorders
-                bottomAnchor = anchorBorders
-                leftAnchor = anchorBorders
-                rightAnchor = anchorBorders
-            }
+            // directions
+            5 -> {
 
-            minWidth = 200.0
-            minHeight = 40.0
-            prefWidth = 200.0
-            prefHeight = 40.0
+                textfield {
+
+                    runAsync {
+
+                        return@runAsync model.text
+
+                    } ui { loadedText ->
+
+                        this@textfield.text = loadedText
+
+                        this.textProperty().onChange {
+                            model.textProperty.bindBidirectional(this.text.toProperty())
+                            model.categoryId = 5
+                            model.nnViewIndex = nnViewIndex
+                            fire(UpdateToDbEvent(model))
+                        }
+
+                    }
+
+                    setOnKeyPressed {
+                        println(model.toJSON())
+                    }
+
+                    anchorpaneConstraints {
+                        topAnchor = anchorBorders
+                        bottomAnchor = anchorBorders
+                        leftAnchor = anchorBorders
+                        rightAnchor = anchorBorders
+                    }
+
+                    minWidth = 200.0
+                    minHeight = 40.0
+                    prefWidth = 80.0
+                    prefHeight = 40.0
+
+                }
+            }
 
         }
     }
 }
-
